@@ -1,17 +1,20 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addContact } from '../../redux/contacts';
 import css from './ContactForm.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Input from '../Input/Input';
 
-export const ContactForm = ({ addContact }) => {
+export const ContactForm = () => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    addContact(name, number);
+    dispatch(addContact({ id: Date.now(), name, number }));
     setName('');
     setNumber('');
   };
