@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { deleteContact } from '../../redux/contacts';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const ContactList = ({ contacts }) => {
+export const ContactList = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector((state) => state.phonebook.contacts);
 
-  const handleDeleteContact = contactId => {
+  const handleDeleteContact = (contactId) => {
     dispatch(deleteContact(contactId));
   };
 

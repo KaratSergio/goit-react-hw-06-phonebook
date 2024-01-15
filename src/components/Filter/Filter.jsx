@@ -2,16 +2,16 @@ import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFilter } from '../../redux/contacts';
+import { setFilter } from '../../redux/contacts';
 
 import Input from '../Input/Input';
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  const value = useSelector((state) => state.contacts.filter);
+  const filter = useSelector((state) => state.phonebook.filter);
 
   const handleFilterChange = (e) => {
-    dispatch(updateFilter(e.target.value));
+    dispatch(setFilter(e.target.value));
   };
 
   <Input
@@ -20,7 +20,7 @@ export const Filter = () => {
     type="text"
     label="Find contacts by name"
     inputName="filter"
-    value={value}
+    value={filter}
     onChange={handleFilterChange}
     required
   />
