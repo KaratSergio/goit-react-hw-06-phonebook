@@ -1,10 +1,19 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 
+import { useDispatch } from 'react-redux';
+import { deleteContact } from '../../redux/contacts';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const ContactList = ({ contacts, deleteContact }) => {
+export const ContactList = ({ contacts }) => {
+  const dispatch = useDispatch();
+
+  const handleDeleteContact = contactId => {
+    dispatch(deleteContact(contactId));
+  };
+
   return (
     <ul className={css.list}>
       {contacts.map(contact => (
@@ -18,7 +27,7 @@ export const ContactList = ({ contacts, deleteContact }) => {
           </div>
           <button
             className={css.deleteButton}
-            onClick={() => deleteContact(contact.id)}
+            onClick={() => handleDeleteContact(contact.id)}
           >
             <FontAwesomeIcon icon={faTrash} />
             Delete
