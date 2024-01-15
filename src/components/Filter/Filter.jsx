@@ -10,9 +10,9 @@ export const Filter = () => {
   const dispatch = useDispatch();
   const value = useSelector((state) => state.contacts.filter);
 
-  const handleFilterChange = e => {
+  const handleFilterChange = (e) => {
     dispatch(updateFilter(e.target.value));
-  }
+  };
 
   <Input
     inputClass={css['name-input']}
