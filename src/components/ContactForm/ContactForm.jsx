@@ -1,34 +1,17 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { nanoid } from 'nanoid';
-import { addContact } from '../../redux/contacts';
 import css from './ContactForm.module.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faCheck } from '@fortawesome/free-solid-svg-icons';
 import Input from '../Input/Input';
 
-export const ContactForm = () => {
-  const dispatch = useDispatch();
+export const ContactForm = ({ addContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault();
-
-    if (name.trim() === '' || number.trim() === '') {
-      alert('Please enter a name and phone number.');
-      return;
-    }
-
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
-    dispatch(addContact(newContact));
-
+    addContact(name, number);
     setName('');
     setNumber('');
   };

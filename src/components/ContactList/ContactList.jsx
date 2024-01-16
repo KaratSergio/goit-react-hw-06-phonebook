@@ -1,20 +1,10 @@
 import PropTypes from 'prop-types';
 import css from './ContactList.module.css';
 
-import { useSelector, useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contacts';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const ContactList = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector((state) => state.phonebook.contacts);
-
-  const handleDeleteContact = (contactId) => {
-    dispatch(deleteContact(contactId));
-  };
-
+export const ContactList = ({ contacts, deleteContact }) => {
   return (
     <ul className={css.list}>
       {contacts.map(contact => (
@@ -28,7 +18,7 @@ export const ContactList = () => {
           </div>
           <button
             className={css.deleteButton}
-            onClick={() => handleDeleteContact(contact.id)}
+            onClick={() => deleteContact(contact.id)}
           >
             <FontAwesomeIcon icon={faTrash} />
             Delete
@@ -47,6 +37,7 @@ ContactList.propTypes = {
       number: PropTypes.string.isRequired,
     })
   ).isRequired,
+  deleteContact: PropTypes.func.isRequired,
 };
 
 export default ContactList;
