@@ -8,16 +8,14 @@ const persistConfig = {
   storage,
 };
 
-const persistedReducer = persistReducer(persistConfig, {
-  phonebook: contactsReducer,
-});
+const persistedReducer = persistReducer(persistConfig, contactsReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
 });
 
-export const persistor =  persistStore(configureStore({
-  reducer: persistedReducer,
-}));
+export const persistor = persistStore(store);
 
 export default store;
+
+
