@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
-import { nanoid } from 'nanoid';
+
 import css from './ContactForm.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -9,14 +8,15 @@ import Input from '../Input/Input';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    dispatch(addContact({ id: nanoid(), name, number }));
-    setName('');
-    setNumber('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const { name, number } = e.target.elements;
+
+    dispatch(addContact({ name: name.value, number: number.value }));
+
+    e.target.reset();
   };
 
   return (
@@ -32,8 +32,7 @@ export const ContactForm = () => {
           </span>
         }
         inputName="name"
-        value={name}
-        onChange={e => setName(e.target.value)}
+        placeholder="Enter name"
         required
       />
       <Input
@@ -47,8 +46,7 @@ export const ContactForm = () => {
           </span>
         }
         inputName="number"
-        value={number}
-        onChange={e => setNumber(e.target.value)}
+        placeholder="Enter phone number"
         required
       />
       <button className={css['button']} type="submit">
