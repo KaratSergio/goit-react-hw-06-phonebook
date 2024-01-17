@@ -47,7 +47,7 @@ export const ContactForm = () => {
           name="number"
           placeholder="Enter phone number"
           required
-          pattern="[0-9]+"
+          pattern="[0-9\-]+"
           title="Please enter only numbers"
         />
       </label>
