@@ -1,13 +1,15 @@
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
 
     const { name, number } = e.target.elements;
