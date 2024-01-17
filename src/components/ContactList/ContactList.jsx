@@ -1,47 +1,51 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from '../../redux/contactsSlice';
-import PropTypes from 'prop-types';
-import css from './ContactList.module.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-export const ContactList = ({ contacts }) => {
-  const dispatch = useDispatch();
+import css from './ContactList.module.css';
 
-  const handleDelete = (contactId) => {
-    dispatch(deleteContact(contactId));
-  };
+const ContactInfo = ({ name, number }) => (
+  <div className={css.contactInfo}>
+    <div className={css.nameContainer}>
+      <FontAwesomeIcon className={css.nameIcon} icon={faUser} />
+      <span className={css.name}>{name}:</span>
+    </div>
+    <span>{number}</span>
+  </div>
+);
+
+const ContactListItem = ({ contact, onDelete }) => (
+  <li key={contact.id} className={css.item}>
+    <ContactInfo name={contact.name} number={contact.number} />
+    <button className={css.deleteButton} onClick={() => onDelete(contact)}>
+      <FontAwesomeIcon icon={faTrash} />
+      Delete
+    </button>
+  </li>
+);
+
+const ContactList = () => {
+  const dispatch = useDispatch();
+  const { contacts, filter } = useSelector(state => state.contacts);
+
+  const userContacts = (contacts, filter) =>
+    contacts.filter(({ name }) => name.toLowerCase().includes(filter ?? ''));
+
+  const handleDelete = contact => dispatch(deleteContact(contact.id));
 
   return (
     <ul className={css.list}>
-      {contacts.map((contact) => (
-        <li key={contact.id} className={css.item}>
-          <div className={css.contactInfo}>
-            <div className={css.nameContainer}>
-              <FontAwesomeIcon className={css.nameIcon} icon={faUser} />
-              <span className={css.name}>{contact.name}:</span>
-            </div>
-            <span>{contact.number}</span>
-          </div>
-          <button className={css.deleteButton} onClick={() => handleDelete(contact.id)}>
-            <FontAwesomeIcon icon={faTrash} />
-            Delete
-          </button>
-        </li>
+      {userContacts(contacts, filter).map(contact => (
+        <ContactListItem
+          key={contact.id}
+          contact={contact}
+          onDelete={handleDelete}
+        />
       ))}
     </ul>
   );
 };
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-};
-
 export default ContactList;
-
