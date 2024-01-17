@@ -1,16 +1,13 @@
 import { useDispatch } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faCheck } from '@fortawesome/free-solid-svg-icons';
-
-import Input from '../Input/Input';
 import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     const { name, number } = e.target.elements;
@@ -22,34 +19,36 @@ export const ContactForm = () => {
 
   return (
     <form className={css['form-container']} onSubmit={handleSubmit}>
-      <Input
-        inputClass={css['name-input']}
-        labelClass={css['name-label']}
-        type="text"
-        label={
-          <span className={css['label-box']}>
-            <FontAwesomeIcon icon={faUser} className={css['icon-input']} />
-            Name
-          </span>
-        }
-        inputName="name"
-        placeholder="Enter name"
-        required
-      />
-      <Input
-        inputClass={css['tel-input']}
-        labelClass={css['tel-label']}
-        type="tel"
-        label={
-          <span className={css['label-box']}>
-            <FontAwesomeIcon icon={faPhone} className={css['icon-input']} />
-            Number
-          </span>
-        }
-        inputName="number"
-        placeholder="Enter phone number"
-        required
-      />
+      <label className={css['name-label']}>
+        <span className={css['label-box']}>
+          <FontAwesomeIcon icon={faUser} className={css['icon-input']} />
+          Name
+        </span>
+        <input
+          className={css['name-input']}
+          type="text"
+          name="name"
+          placeholder="Enter name"
+          required
+          pattern="[A-Za-zА-Яа-яЁё\s]+"
+          title="Please enter only letters and spaces"
+        />
+      </label>
+      <label className={css['tel-label']}>
+        <span className={css['label-box']}>
+          <FontAwesomeIcon icon={faPhone} className={css['icon-input']} />
+          Number
+        </span>
+        <input
+          className={css['tel-input']}
+          type="tel"
+          name="number"
+          placeholder="Enter phone number"
+          required
+          pattern="[0-9]+"
+          title="Please enter only numbers"
+        />
+      </label>
       <button className={css['button']} type="submit">
         <FontAwesomeIcon icon={faCheck} className={css['iconBtn']} />
         Add Contact

@@ -33,12 +33,19 @@
 
 .name-label,
 .tel-label {
+  font-size: 22px;
   text-shadow: var(--label-shadow);
   font-family: 'Menlo';
   padding-top: 15px;
 }
 .name-input,
 .tel-input {
+  display: flex;
+  padding: 10px 15px;
+  height: 15px;
+  width: 258px;
+  border: var(--accent-border);
+  border-radius: 4px;
   margin-top: 5px;
   background-color: var(--input-bg);
   box-shadow: var(--input-box-shadow);
