@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from '../../redux/contactsSlice';
+import * as selectors from '../../redux/selectors';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faTrash } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +29,8 @@ const ContactListItem = ({ contact, onDelete }) => (
 
 const ContactList = () => {
   const dispatch = useDispatch();
-  const { contacts, filter } = useSelector(state => state.contacts);
+  const contacts = useSelector(selectors.getContacts);
+  const filter = useSelector(selectors.getFilter);
 
   const userContacts = (contacts, filter) =>
     contacts.filter(({ name }) => name.toLowerCase().includes(filter ?? ''));

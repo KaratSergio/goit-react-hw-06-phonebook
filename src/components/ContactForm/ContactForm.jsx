@@ -1,5 +1,9 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from '../../redux/contactsSlice';
+import { nanoid } from '@reduxjs/toolkit';
+import * as selectors from '../../redux/selectors';
+
+import Notiflix from 'notiflix';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faPhone, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -8,13 +12,35 @@ import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(selectors.getContacts);
 
   const handleSubmit = e => {
     e.preventDefault();
 
     const { name, number } = e.target.elements;
 
-    dispatch(addContact({ name: name.value, number: number.value }));
+    const newName = name.value;
+    const isExistingContact = contacts.some(
+      ({ name }) => name.toLowerCase() === newName.toLowerCase()
+    );
+
+    if (!isExistingContact) {
+      const newContact = {
+        id: nanoid(),
+        name: newName,
+        number: number.value,
+      };
+
+      dispatch(addContact(newContact));
+
+      Notiflix.Notify.success('Contact added successfully', {
+        position: 'left-top',
+      });
+    } else {
+      Notiflix.Notify.warning('Contact with this name already exists', {
+        position: 'left-top',
+      });
+    }
 
     e.target.reset();
   };

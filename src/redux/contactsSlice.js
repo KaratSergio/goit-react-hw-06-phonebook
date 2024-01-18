@@ -1,4 +1,4 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 const contactsSlice = createSlice({
   name: 'phonebook',
@@ -9,21 +9,10 @@ const contactsSlice = createSlice({
   reducers: {
     addContact(state, action) {
       const newContact = action.payload;
-      const newName = newContact.name;
-      const { contacts } = state;
-
-      const isExistingContact = contacts.some(
-        ({ name }) => name.toLowerCase() === newName.toLowerCase()
-      );
-
-      if (!isExistingContact) {
-        newContact.id = nanoid();
-        state.contacts.push(newContact);
-      }
+      state.contacts.push(newContact);
     },
     deleteContact(state, action) {
       const idDeleteContact = action.payload;
-
       state.contacts = state.contacts.filter(
         ({ id }) => id !== idDeleteContact
       );
